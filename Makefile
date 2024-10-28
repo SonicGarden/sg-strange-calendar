@@ -5,3 +5,7 @@ test/calendar:
 .PHONY: test/table
 test/table:
 	ruby test/sg_strange_calendar/table_test.rb --no-plugins
+
+.PHONY: test/horizonal
+test/horizonal:
+	ruby test/sg_strange_calendar/presenter/horizonal_presenter_test.rb --no-plugins

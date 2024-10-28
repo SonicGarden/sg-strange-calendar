@@ -1,4 +1,4 @@
-module SgStrangeCalendar
+class SgStrangeCalendar
   class Table
     WEEKDAYS = %w[Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo]
 
