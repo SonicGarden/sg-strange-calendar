@@ -4,7 +4,7 @@ class SgStrangeCalendar
 
     def initialize(year, today = nil)
       @year = year
-      @today = today || Date.today
+      @today = today
     end
 
     def generate

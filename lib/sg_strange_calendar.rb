@@ -4,7 +4,7 @@ require_relative 'sg_strange_calendar/presenter/horizonal_presenter'
 class SgStrangeCalendar
   def initialize(year, today = nil)
     @year = year
-    @today = today || Date.today
+    @today = today
   end
 
   def generate(vertical: false)
@@ -14,6 +14,6 @@ class SgStrangeCalendar
     #   ...
     # ]
     table = SgStrangeCalendar::Table.new(@year, @today)
-    SgStrangeCalendar::Presenter::HorizonalPresenter.present(table.generate)
+    SgStrangeCalendar::Presenter::HorizonalPresenter.present(table.generate, @today)
   end
 end
