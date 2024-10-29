@@ -18,14 +18,12 @@ class SgStrangeCalendar
     table = SgStrangeCalendar::Table.new(@year, @today).generate
 
     if vertical
-      SgStrangeCalendar::Presenter::VerticalPresenter.new.present(
+      SgStrangeCalendar::Presenter::VerticalPresenter.new(@today).present(
         table.transpose,
-        @today
       )
     else
-      SgStrangeCalendar::Presenter::HorizonalPresenter.new.present(
+      SgStrangeCalendar::Presenter::HorizonalPresenter.new(@today).present(
         table,
-        @today
       )
     end
   end
@@ -38,7 +36,7 @@ class SgStrangeCalendar
     table = SgStrangeCalendar::Table.new(year, today).generate
     "\n==== error === invalid === year ====" \
       + "\n\n" +  ("🎂" * 40) + "\n\n" \
-      + SgStrangeCalendar::Presenter::HorizonalPresenter.new.present(
+      + SgStrangeCalendar::Presenter::HorizonalPresenter.new(today).present(
         table,
         today) \
       + "\n\n" + ("🎂" * 40) \
