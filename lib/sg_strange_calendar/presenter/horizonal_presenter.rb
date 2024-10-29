@@ -11,20 +11,20 @@ class SgStrangeCalendar
           # row[0] is left-justified
           # row[1..] is right-justified
           # rsrip is to remove trailing spaces
-          row = [
+          str_row = [
             display_value(row[0], today).ljust(4),
             date
           ].join(' ').rstrip
           # [xx] を含む row は今日を含んでいると判断する
-          if row.match?(/[\[|\]]/)
+          if str_row.match?(/[\[|\]]/)
             # 右側へのはみ出しを削る
-            row = row.match?(/\] /) ? row.gsub(/\] /, ']') : row
+            str_row = str_row.match?(/\] /) ? str_row.gsub(/\] /, ']') : str_row
             # 2桁以上の場合は、左側へのはみ出しを削る
             if today.day > 9
-              row = row.match?(/ \[/) ? row.gsub(/ \[/, '[') : row
+              str_row = str_row.match?(/ \[/) ? str_row.gsub(/ \[/, '[') : str_row
             end
           end
-          row
+          str_row
         end.join("\n")
       end
 

@@ -1,5 +1,6 @@
 require_relative 'sg_strange_calendar/table'
 require_relative 'sg_strange_calendar/presenter/horizonal_presenter'
+require_relative 'sg_strange_calendar/presenter/vertical_presenter'
 
 class SgStrangeCalendar
   def initialize(year, today = nil)
@@ -15,9 +16,15 @@ class SgStrangeCalendar
     # ]
     table = SgStrangeCalendar::Table.new(@year, @today)
     if vertical
-      table.generate.transpose
+      SgStrangeCalendar::Presenter::VerticalPresenter.present(
+        table.generate.transpose,
+        @today
+      )
     else
-      SgStrangeCalendar::Presenter::HorizonalPresenter.present(table.generate, @today)
+      SgStrangeCalendar::Presenter::HorizonalPresenter.present(
+        table.generate,
+        @today
+      )
     end
   end
 end
