@@ -14,15 +14,16 @@ class SgStrangeCalendar
     #   [Mon, nil, nil, ... Date1, Date2, ... Date31, nil, nil, ...]]
     #   ...
     # ]
-    table = SgStrangeCalendar::Table.new(@year, @today)
+    table = SgStrangeCalendar::Table.new(@year, @today).generate
+
     if vertical
-      SgStrangeCalendar::Presenter::VerticalPresenter.present(
-        table.generate.transpose,
+      SgStrangeCalendar::Presenter::VerticalPresenter.new.present(
+        table.transpose,
         @today
       )
     else
-      SgStrangeCalendar::Presenter::HorizonalPresenter.present(
-        table.generate,
+      SgStrangeCalendar::Presenter::HorizonalPresenter.new.present(
+        table,
         @today
       )
     end

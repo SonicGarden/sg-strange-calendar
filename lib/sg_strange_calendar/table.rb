@@ -9,7 +9,7 @@ class SgStrangeCalendar
 
     def generate
       # header + 12 months
-      [ header(@year) ] +
+      table ||= [ header(@year) ] +
         ((0..11).to_a).map { |month| Row.new(@year, month, @today).generate }
     end
 
