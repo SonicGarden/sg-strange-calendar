@@ -16,14 +16,11 @@ class SgStrangeCalendar
         end
 
         def update_today_str(str_row, today)
-          # 右側へのはみ出しを削る
-          str_row = str_row.match?(/\] /) ? str_row.gsub(/\] /, ']') : str_row
           # 2桁以上の場合は、左側へのはみ出しを削る
-          if today.day > 9
-            str_row = str_row.match?(/ \[/) ? str_row.gsub(/ \[/, '[') : str_row
-          end
+          str_row = str_row.gsub(/ \[/, '[') if today.day > 9
 
-          str_row
+          # 右側へのはみ出しを削る
+          str_row.gsub(/\] /, ']')
         end
       end
     end

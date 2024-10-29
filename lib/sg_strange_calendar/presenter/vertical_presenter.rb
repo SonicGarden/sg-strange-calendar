@@ -9,18 +9,16 @@ class SgStrangeCalendar
           # for debug
           # return '-+*' if(value.nil?)
           return '   ' if(value.nil?)
-          if(is_today?(value, today))
-            return "[#{value.day}]".rjust(3)
-          end
+          return "[#{value.day}]".rjust(3) if(is_today?(value, today))
           return value.day.to_s.rjust(3) if(value.is_a?(Date))
+
           value.to_s.rjust(3)
         end
 
         def update_today_str(str_row, today)
-          if today.day < 10
-            str_row = str_row.gsub(/\] /, ']')
-            str_row = str_row.gsub(/\[/, ' [')
-          end
+          # 10 文字より小さかったら、日付の前にスペースを追加
+          # 1 文字ずつずらす
+          return str_row.gsub(/\] /, ']').gsub(/\[/, ' [') if today.day < 10
 
           str_row
         end
