@@ -11,7 +11,7 @@ class SgStrangeCalendar
   end
 
   def generate(vertical: false)
-    array = vertical ? each_month.transpose : each_month
+    array = vertical ? calender_array.transpose : calender_array
     array.map.with_index do |m, row|
       next m.join(' ') if row.zero?
 
@@ -25,7 +25,7 @@ class SgStrangeCalendar
       # -> "Th     4   1 "
       #       ~~~xxxxYYYY  : numof "~" is 3
       first_spacer = vertical ? '   ' : ' '
-      each_month_buf = "#{m.first}#{first_spacer}"
+      line_arg = "#{m.first}#{first_spacer}"
       m[1..].each.with_index(1) do |day, column|
         if vertical
           day_arg = if @today&.month == column && @today&.day == day
@@ -33,9 +33,9 @@ class SgStrangeCalendar
                     else
                       "#{day} " # Right side space is reserved for "]".
                     end
-          each_month_buf << format('%4s', day_arg)
+          line_arg << format('%4s', day_arg)
         else
-          each_month_buf << format('%3s', day)
+          line_arg << format('%3s', day)
         end
       end
       # Horizontal mode have each 3 width, but 1 char overlapped following day.
@@ -43,9 +43,9 @@ class SgStrangeCalendar
       if !vertical && m.first == @today&.strftime('%b')
         # convert from "  1  2  3" -> "  1 [2] 3"
         #                   ~~~ <- pick here
-        each_month_buf.sub!(/ #{@today.day}(\s|\z)/, "[#{@today.day}]")
+        line_arg.sub!(/ #{@today.day}(\s|\z)/, "[#{@today.day}]")
       end
-      each_month_buf.strip
+      line_arg.strip
     end.join("\n")
   end
 
@@ -56,7 +56,7 @@ class SgStrangeCalendar
     [@year] + 37.times.map { |i| (Date.parse - 1 + i).strftime('%a')[0..1] }
   end
 
-  def each_month
+  def calender_array
     [header] +
       12.times.map do |i|
         first_day = Date.parse("#{@year}-#{i + 1}-1")
