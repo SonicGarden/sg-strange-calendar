@@ -7,15 +7,18 @@ class SgStrangeCalendar
   end
 
   def generate(vertical: false)
-    
+    result = "2024 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo"
+    @calendar.each_value do |cal|
+      result += print_month()
+    end
   end
 
   def generate_calendar_hash(year)
     result = {}
 
     Date.new(year, 1, 1).step(Date.new(year, 12, 31)).each do |date|
-      month = date.strftime('%b') # Jan, Feb, ...
-      weekday = date.strftime('%a') # Mo, Tu, ...
+      month = date.strftime('%b') # ex: Jan
+      weekday = date.strftime('%a')[0, 2] # ex: Mo
 
       result[month] ||= {}
       result[month][date.day] = weekday
@@ -23,7 +26,11 @@ class SgStrangeCalendar
 
     result
   end
+
+  def print_month()
+    # hogehoge
+  end
 end
 
 c = SgStrangeCalendar.new(2024)
-puts c.generate
+c.generate
