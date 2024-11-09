@@ -5,7 +5,7 @@ class SgStrangeCalendar
   def initialize(year, today = nil)
     @year = year
     @today = today
-    @calendar = generate_calendar_hash(year) # {"Jan" => {1 => "Mo", 2=>"Tu", ... }, "Feb"=>{1=>"Th", ... }, ...}
+    @calendar = create_calendar_hash(year) # {"Jan" => {1 => "Mo", 2=>"Tu", ... }, "Feb"=>{1=>"Th", ... }, ...}
   end
 
   def generate(vertical: false)
@@ -13,11 +13,10 @@ class SgStrangeCalendar
     @calendar.each do |month, date|
       result.push(create_month_line(month, date))
     end
-    puts result
-    result.join("\n")
+    adjust_space(result.join("\n"))
   end
 
-  def generate_calendar_hash(year)
+  def create_calendar_hash(year)
     result = {}
 
     Date.new(year, 1, 1).step(Date.new(year, 12, 31)).each do |date|
@@ -32,7 +31,7 @@ class SgStrangeCalendar
   end
 
   def create_month_line(month, date)
-    result = [month + " "]
+    result = [month.ljust(4)]
     target_date = 1
     
     WEEKDAY_HEADER.split(" ").each do |w|
@@ -42,7 +41,11 @@ class SgStrangeCalendar
       end
       
       if w == target_weekday
-        result.push(target_date.to_s.rjust(2))
+        if isToday(month, target_date)
+          result.push("[" + target_date.to_s + "]")
+        else
+          result.push(target_date.to_s.rjust(2))
+        end
         target_date += 1
       else
         result.push("  ")
@@ -51,7 +54,21 @@ class SgStrangeCalendar
     
     result.join(" ")
   end
+
+  def isToday(targe_month, target_date)
+    !@today.nil? && @today.strftime("%Y") == @year.to_s && @today.strftime("%b") == targe_month && @today.strftime("%d") == target_date.to_s.rjust(2, "0")
+  end
 end
 
-# c = SgStrangeCalendar.new(2025)
-# c.generate
+def adjust_space(target)
+  if @today.nil?
+    return target
+  end
+
+  @today.strftime("%d").to_i < 10 ? target.gsub("] ", "]") : target.gsub(" [", "[").gsub("] ", "]")
+  
+end
+
+today = Date.new(2024, 12, 31)
+c = SgStrangeCalendar.new(2024, today)
+c.generate
