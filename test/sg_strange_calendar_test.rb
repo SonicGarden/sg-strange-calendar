@@ -108,6 +108,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024
+    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -153,6 +154,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_01_01
+    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -199,6 +201,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_12_09
+    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -245,6 +248,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2025_03_31
+    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2025 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                         1
