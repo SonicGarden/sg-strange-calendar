@@ -54,7 +54,7 @@ class SgStrangeCalendar
   end
 
   def build_vertical_header(wday, dates)
-    months = dates.map { |date| date.strftime('%b') }.join(' ')
+    months = dates.map { |date| date.strftime('%b') }
     [wday, *months].join(' ')
   end
 
