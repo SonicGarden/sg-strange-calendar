@@ -19,7 +19,7 @@ class SgStrangeCalendar
 
     private
 
-    def generate_horizontal_dates
+    def generate_data
       dates = 1.upto(12).map do |m|
         first_date = Date.new(@year, m, 1)
         last_date = Date.new(@year, m, -1)
@@ -28,18 +28,13 @@ class SgStrangeCalendar
       end
       [[@year, *WDAYS]] + dates
     end
-
-    def generate_vertical_dates
-      wdays, *dates = generate_horizontal_dates
-      wdays.zip(*dates)
-    end
   end
 
   class HorizontalGenerator < Generator
     def generate_calendar
-      horizontal_dates = generate_horizontal_dates
-      horizontal_dates.map.with_index do |(first_date, *dates), i|
-        i.zero? ? build_horizontal_header(first_date, dates) : build_horizontal_body(first_date, dates)
+      horizontal_dates = generate_data
+      horizontal_dates.map.with_index do |(head, *tail), i|
+        i.zero? ? build_horizontal_header(head, tail) : build_horizontal_body(head, tail)
       end.join("\n")
     end
 
@@ -62,20 +57,24 @@ class SgStrangeCalendar
 
   class VerticalGenerator < Generator
     def generate_calendar
-      vertical_dates = generate_vertical_dates
-      vertical_dates.map.with_index do |(wday, *dates), i|
-        i.zero? ? build_vertical_header(wday, dates) : build_vertical_body(wday, dates)
+      generate_data.map.with_index do |(head, *tail), i|
+        i.zero? ? build_vertical_header(head, *tail) : build_vertical_body(head, *tail)
       end.join("\n")
     end
 
     private
 
-    def build_vertical_header(year, dates)
+    def generate_data
+      wdays, *dates = super
+      wdays.zip(*dates)
+    end
+
+    def build_vertical_header(year, *dates)
       months = dates.map { |date| date.strftime('%b') }
       [year, *months].join(' ')
     end
 
-    def build_vertical_body(wday, dates)
+    def build_vertical_body(wday, *dates)
       days = dates.map do |date|
         day = @today && date == @today ? "[#{date.day}" : date&.day
         day.to_s.rjust(3)
