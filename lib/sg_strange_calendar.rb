@@ -13,8 +13,7 @@ class SgStrangeCalendar
   private
 
   def generate_horizontal
-    horizontal_dates = [[@year, *WDAYS]]
-    horizontal_dates += generate_horizontal_dates
+    horizontal_dates = generate_horizontal_dates
     body = horizontal_dates.map.with_index do |(first_date, *dates), i|
       month, *days = i.zero? ? [first_date, *dates] : build_horizontal_body(first_date, dates)
       row = [month.to_s.ljust(4), *days].join(' ')
@@ -31,17 +30,18 @@ class SgStrangeCalendar
   end
 
   def generate_vertical_dates
-    horizontal_dates = generate_horizontal_dates
-    [@year, *WDAYS].zip(*horizontal_dates)
+    wdays, *dates = generate_horizontal_dates
+    wdays.zip(*dates)
   end
 
   def generate_horizontal_dates
-    1.upto(12).map do |m|
+    dates = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
       blank_days = Array.new(first_date.wday)
       [first_date, *blank_days, *first_date..last_date]
     end
+    [[@year, *WDAYS]] + dates
   end
 
   def build_horizontal_body(first_date, dates)
