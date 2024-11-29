@@ -1,4 +1,6 @@
 class SgStrangeCalendar
+  WDAYS = (%w[Su Mo Tu We Th Fr Sa] * 6).take(37)
+
   def initialize(year, today = nil)
     @year = year
     @today = today
@@ -11,7 +13,7 @@ class SgStrangeCalendar
   private
 
   def generate_horizontal
-    header = "#{@year}#{' Su Mo Tu We Th Fr Sa' * 5} Su Mo"
+    header = "#{@year} #{WDAYS.join(' ')}"
     body = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
@@ -33,8 +35,7 @@ class SgStrangeCalendar
       blank_days = Array.new(first_date.wday)
       [*blank_days, *first_date..last_date]
     end
-    wdays = %w[Su Mo Tu We Th Fr Sa] * 5 + %w[Su Mo]
-    vertical_dates = wdays.zip(*horizontal_dates)
+    vertical_dates = WDAYS.zip(*horizontal_dates)
 
     header = "#{@year} Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
     body = vertical_dates.map do |wday, *dates|
