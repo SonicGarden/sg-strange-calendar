@@ -15,9 +15,9 @@ class SgStrangeCalendar
         days.push(date == @today ? "[#{date.day}]" : date.day.to_s.rjust(2))
       end
       row = "#{month}  #{days.join(' ')}"
-              .sub(/(\[\d\]) (\d)/, '\1\2')
-              .sub(/(\d) (\[\d\d\])/, '\1\2')
-              .sub(/(\[\d\])  (\d)/, '\1 \2')
+              .sub(/(\d\]) (\d)/, '\1\2')   # [10] 11 => [10]11
+              .sub(/(\d\])  (\d)/, '\1 \2') # [1]  2  => [1] 2
+              .sub(/(\d) (\[\d\d)/, '\1\2') # 9 [10]  => 9[10]
       rows << row
     end
     rows.join("\n")
