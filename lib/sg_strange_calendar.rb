@@ -29,23 +29,26 @@ class SgStrangeCalendar
   end
 
   def generate_vertical
-    horizontal_dates = Array.new(12) do |i|
-      first_date = Date.new(@year, i + 1, 1)
-      last_date = Date.new(@year, i + 1, -1)
+    horizontal_dates = 1.upto(12).map do |m|
+      first_date = Date.new(@year, m, 1)
+      last_date = Date.new(@year, m, -1)
       blank_days = Array.new(first_date.wday)
-      [*blank_days, *first_date..last_date]
+      [first_date, *blank_days, *first_date..last_date]
     end
-    vertical_dates = WDAYS.zip(*horizontal_dates)
+    vertical_dates = [@year, *WDAYS].zip(*horizontal_dates)
 
-    header = "#{@year} Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
-    body = vertical_dates.map do |wday, *dates|
-      days = dates.map do |date|
-        day = @today && date == @today ? "[#{date.day}" : date&.day
-        day.to_s.rjust(3)
+    vertical_dates.map.with_index do |(wday, *dates), i|
+      if i.zero?
+        months = dates.map { |date| date.strftime('%b') }.join(' ')
+        [wday, *months].join(' ')
+      else
+        days = dates.map do |date|
+          day = @today && date == @today ? "[#{date.day}" : date&.day
+          day.to_s.rjust(3)
+        end
+        row = ["#{wday}  ", *days].join(' ')
+        row.sub(/(\[\d+) ?/, '\1]').rstrip
       end
-      row = ["#{wday}  ", *days].join(' ')
-      row.sub(/(\[\d+) ?/, '\1]').rstrip
-    end
-    [header, *body].join("\n")
+    end.join("\n")
   end
 end
