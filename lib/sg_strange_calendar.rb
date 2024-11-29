@@ -10,7 +10,7 @@ class SgStrangeCalendar
   end
 
   class Generator
-    WDAYS = (%w[Su Mo Tu We Th Fr Sa] * 6).take(37)
+    WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
 
     def initialize(year, today)
       @year = year
