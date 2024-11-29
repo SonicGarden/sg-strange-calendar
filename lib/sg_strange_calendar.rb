@@ -11,36 +11,40 @@ class SgStrangeCalendar
   private
 
   def generate_horizontal
-    rows = ["#{@year}#{' Su Mo Tu We Th Fr Sa' * 5} Su Mo"]
-    1.upto(12) do |m|
+    header = "#{@year}#{' Su Mo Tu We Th Fr Sa' * 5} Su Mo"
+    body = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
       month = first_date.strftime('%b')
       days = Array.new(first_date.wday, '  ')
-      first_date.upto(last_date) do |date|
-        days.push(date == @today ? "[#{date.day}" : date.day.to_s.rjust(2))
+      days += first_date.upto(last_date).map do |date|
+        date == @today ? "[#{date.day}" : date.day.to_s.rjust(2)
       end
-      rows << "#{month}  #{days.join(' ')}".sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
+      row = "#{month}  #{days.join(' ')}"
+      row.sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
     end
-    rows.join("\n")
+    [header, *body].join("\n")
   end
 
   def generate_vertical
-    horizontal = Array.new(12) do |i|
+    horizontal_dates = Array.new(12) do |i|
       first_date = Date.new(@year, i + 1, 1)
       last_date = Date.new(@year, i + 1, -1)
-      empty_days = Array.new(first_date.wday)
-      [*empty_days, *first_date..last_date]
+      blank_days = Array.new(first_date.wday)
+      [*blank_days, *first_date..last_date]
     end
     wdays = %w[Su Mo Tu We Th Fr Sa] * 5 + %w[Su Mo]
-    vertical = wdays.zip(*horizontal)
-    rows = ["#{@year} Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"]
-    vertical.each do |wday, *dates|
+    vertical_dates = wdays.zip(*horizontal_dates)
+
+    header = "#{@year} Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
+    body = vertical_dates.map do |wday, *dates|
       days = dates.map do |date|
-        (@today && date == @today ? "[#{date.day}" : date&.day).to_s.rjust(3)
+        day = @today && date == @today ? "[#{date.day}" : date&.day
+        day.to_s.rjust(3)
       end
-      rows << ["#{wday}  ", *days].join(' ').rstrip.sub(/(\[\d+) ?/, '\1]')
+      row = ["#{wday}  ", *days].join(' ')
+      row.sub(/(\[\d+) ?/, '\1]').rstrip
     end
-    rows.join("\n")
+    [header, *body].join("\n")
   end
 end
