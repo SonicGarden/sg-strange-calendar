@@ -38,11 +38,7 @@ class SgStrangeCalendar
     vertical_dates = [@year, *WDAYS].zip(*horizontal_dates)
 
     vertical_dates.map.with_index do |(wday, *dates), i|
-      if i.zero?
-        build_header(wday, dates)
-      else
-        build_vertical_body(wday, dates)
-      end
+      i.zero? ? build_header(wday, dates) : build_vertical_body(wday, dates)
     end.join("\n")
   end
 
