@@ -22,24 +22,27 @@ class SgStrangeCalendar
       days += first_date.upto(last_date).map do |date|
         date == @today ? "[#{date.day}" : date.day.to_s.rjust(2)
       end
-      row = "#{month}  #{days.join(' ')}"
+      row = ["#{month} ", *days].join(' ')
       row.sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
     end
     [header, *body].join("\n")
   end
 
   def generate_vertical
+    vertical_dates = generate_vertical_dates
+    vertical_dates.map.with_index do |(wday, *dates), i|
+      i.zero? ? build_header(wday, dates) : build_vertical_body(wday, dates)
+    end.join("\n")
+  end
+
+  def generate_vertical_dates
     horizontal_dates = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
       blank_days = Array.new(first_date.wday)
       [first_date, *blank_days, *first_date..last_date]
     end
-    vertical_dates = [@year, *WDAYS].zip(*horizontal_dates)
-
-    vertical_dates.map.with_index do |(wday, *dates), i|
-      i.zero? ? build_header(wday, dates) : build_vertical_body(wday, dates)
-    end.join("\n")
+    [@year, *WDAYS].zip(*horizontal_dates)
   end
 
   def build_header(wday, dates)
