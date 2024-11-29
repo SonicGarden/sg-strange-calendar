@@ -43,6 +43,10 @@ class SgStrangeCalendar
       day = @today && date == @today ? "[#{date.day}" : date&.day
       day.to_s.rjust(width)
     end
+
+    def insert_right_bracket(row)
+      row.sub(/(\[\d+) ?/, '\1]')
+    end
   end
 
   class HorizontalGenerator < Generator
@@ -56,7 +60,7 @@ class SgStrangeCalendar
       month = to_month(first_date)
       days = dates.map { |date| format_day(date, 2) }
       row = ["#{month} ", *days].join(' ')
-      row.sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
+      insert_right_bracket(row).sub(/ (\[\d\d)/, '\1')
     end
   end
 
@@ -76,7 +80,7 @@ class SgStrangeCalendar
     def build_body(wday, dates)
       days = dates.map { |date| format_day(date, 3) }
       row = ["#{wday}  ", *days].join(' ')
-      row.sub(/(\[\d+) ?/, '\1]').rstrip
+      insert_right_bracket(row).rstrip
     end
   end
 end
