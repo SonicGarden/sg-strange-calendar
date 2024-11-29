@@ -12,14 +12,9 @@ class SgStrangeCalendar
       month = first_date.strftime('%b')
       days = Array.new(first_date.wday, '  ')
       first_date.upto(last_date) do |date|
-        days.push(date == @today ? "[#{date.day}]" : date.day.to_s.rjust(2))
+        days.push(date == @today ? "[#{date.day}" : date.day.to_s.rjust(2))
       end
-      row = "#{month}  #{days.join(' ')}"
-              .sub(/(\d])  (\d)/, '\1 \2')   # [1]  2  => [1] 2
-              .sub(/(\d]) (\d\d)/, '\1\2')   # [9] 10  => [9]10
-              .sub(/(\d) (\[\d\d)/, '\1\2')  # 9 [10]  => 9[10]
-              .sub(/(\d\d]) (\d)/, '\1\2')   # [10] 11 => [10]11
-      rows << row
+      rows << "#{month}  #{days.join(' ')}".sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
     end
     rows.join("\n")
   end
