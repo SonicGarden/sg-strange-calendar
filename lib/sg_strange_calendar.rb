@@ -34,6 +34,15 @@ class SgStrangeCalendar
       end
       [[@year, *WDAYS]] + dates
     end
+
+    def to_month(date)
+      date.strftime('%b')
+    end
+
+    def format_day(date, width)
+      day = @today && date == @today ? "[#{date.day}" : date&.day
+      day.to_s.rjust(width)
+    end
   end
 
   class HorizontalGenerator < Generator
@@ -44,12 +53,9 @@ class SgStrangeCalendar
     end
 
     def build_body(first_date, dates)
-      month = first_date.strftime('%b')
-      days = dates.map do |date|
-        day = @today && date == @today ? "[#{date.day}" : date&.day
-        day.to_s.rjust(2)
-      end
-      row = [month.to_s.ljust(4), *days].join(' ')
+      month = to_month(first_date)
+      days = dates.map { |date| format_day(date, 2) }
+      row = ["#{month} ", *days].join(' ')
       row.sub(/ (\[\d\d)/, '\1').sub(/(\[\d+) ?/, '\1]')
     end
   end
@@ -62,16 +68,13 @@ class SgStrangeCalendar
       wdays.zip(*dates)
     end
 
-    def build_header(year, dates)
-      months = dates.map { |date| date.strftime('%b') }
+    def build_header(year, first_dates)
+      months = first_dates.map { |date| to_month(date) }
       [year, *months].join(' ')
     end
 
     def build_body(wday, dates)
-      days = dates.map do |date|
-        day = @today && date == @today ? "[#{date.day}" : date&.day
-        day.to_s.rjust(3)
-      end
+      days = dates.map { |date| format_day(date, 3) }
       row = ["#{wday}  ", *days].join(' ')
       row.sub(/(\[\d+) ?/, '\1]').rstrip
     end
