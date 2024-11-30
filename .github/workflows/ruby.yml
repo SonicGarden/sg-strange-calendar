@@ -14,5 +14,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.5
+      - name: Install RubyCritic
+        run: gem install rubycritic
       - name: Run tests
         run: ruby test/sg_strange_calendar_test.rb --no-plugins
+      - name: Run RubyCritic
+        run: rubycritic lib/**/*.rb -f console
