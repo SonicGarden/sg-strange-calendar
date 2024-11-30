@@ -26,13 +26,13 @@ class SgStrangeCalendar
     private
 
     def generate_data
-      dates = 1.upto(12).map do |m|
+      dates_by_month = 1.upto(12).map do |m|
         first_date = Date.new(@year, m, 1)
         last_date = Date.new(@year, m, -1)
         blank_days = Array.new(first_date.wday)
         [first_date, *blank_days, *first_date..last_date]
       end
-      [[@year, *WDAYS]] + dates
+      [[@year, *WDAYS]] + dates_by_month
     end
 
     def to_month(date)
@@ -68,8 +68,8 @@ class SgStrangeCalendar
     private
 
     def generate_data
-      wdays, *dates = super
-      wdays.zip(*dates)
+      wdays, *dates_by_month = super
+      wdays.zip(*dates_by_month)
     end
 
     def build_header_row(year, first_dates)
