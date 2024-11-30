@@ -22,7 +22,7 @@ class SgStrangeCalendar
 
   def header
     # According to Date specifications, "Date.parse(str = '-4712-01-01')" is Monday
-    [@year] + 37.times.map { |i| (Date.parse - 1 + i).strftime('%a')[0..1] }
+    [@year] + HORIZONTAL_WIDTH.times.map { |i| (Date.parse - 1 + i).strftime('%a')[0..1] }
   end
 
   def horizontal_calender_array
@@ -55,9 +55,6 @@ class SgStrangeCalendar
     horizontal_calender_array.map.with_index do |m, row|
       next m.join(' ') if row.zero?
 
-      # ['Jan', nil, 1, 2]
-      # -> "Jan      1  2"
-      #        ~xxxYYYzzz  : first_spacer(~) length is 1
       line_arg = "#{m.first}#{first_spacer}"
       m[1..].each.with_index(1) do |day, column|
         line_arg << format('%3s', day)
