@@ -19,7 +19,7 @@ class SgStrangeCalendar
 
     def generate_calendar
       generate_data.map.with_index do |(head, *tail), i|
-        i.zero? ? build_header(head, tail) : build_body_row(head, tail)
+        i.zero? ? build_header_row(head, tail) : build_body_row(head, tail)
       end.join("\n")
     end
 
@@ -52,7 +52,7 @@ class SgStrangeCalendar
   class HorizontalGenerator < Generator
     private
 
-    def build_header(year, wdays)
+    def build_header_row(year, wdays)
       [year, *wdays].join(' ')
     end
 
@@ -72,7 +72,7 @@ class SgStrangeCalendar
       wdays.zip(*dates)
     end
 
-    def build_header(year, first_dates)
+    def build_header_row(year, first_dates)
       months = first_dates.map { |date| to_month(date) }
       [year, *months].join(' ')
     end
