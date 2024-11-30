@@ -19,7 +19,7 @@ class SgStrangeCalendar
 
     def generate_calendar
       generate_data.map.with_index do |(head, *tail), i|
-        i.zero? ? build_header(head, tail) : build_body(head, tail)
+        i.zero? ? build_header(head, tail) : build_body_row(head, tail)
       end.join("\n")
     end
 
@@ -56,7 +56,7 @@ class SgStrangeCalendar
       [year, *wdays].join(' ')
     end
 
-    def build_body(first_date, dates)
+    def build_body_row(first_date, dates)
       month = to_month(first_date)
       days = dates.map { |date| format_day(date, 2) }
       row = ["#{month} ", *days].join(' ')
@@ -77,7 +77,7 @@ class SgStrangeCalendar
       [year, *months].join(' ')
     end
 
-    def build_body(wday, dates)
+    def build_body_row(wday, dates)
       days = dates.map { |date| format_day(date, 3) }
       row = ["#{wday}  ", *days].join(' ')
       insert_right_bracket(row).rstrip
