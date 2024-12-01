@@ -39,9 +39,9 @@ class SgStrangeCalendar
       date.strftime('%b')
     end
 
-    def format_day(date, width)
+    def format_day(date)
       day = @today && date == @today ? "[#{date.day}" : date&.day
-      day.to_s.rjust(width)
+      day.to_s.rjust(3)
     end
 
     def insert_right_bracket(row)
@@ -58,9 +58,9 @@ class SgStrangeCalendar
 
     def build_body_row(first_date, dates)
       month = to_month(first_date)
-      days = dates.map { |date| format_day(date, 2) }
-      row = ["#{month} ", *days].join(' ')
-      insert_right_bracket(row).sub(/ (\[\d\d)/, '\1')
+      days = dates.map { |date| format_day(date) }
+      row = ["#{month} ", *days].join
+      insert_right_bracket(row)
     end
   end
 
@@ -78,7 +78,7 @@ class SgStrangeCalendar
     end
 
     def build_body_row(wday, dates)
-      days = dates.map { |date| format_day(date, 3) }
+      days = dates.map { |date| format_day(date) }
       row = ["#{wday}  ", *days].join(' ')
       insert_right_bracket(row).rstrip
     end
