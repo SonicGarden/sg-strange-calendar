@@ -8,9 +8,9 @@ class SgStrangeCalendar
   end
 
   def generate(vertical: false)
-    header, *body_dates = generate_table(vertical)
-    header_row = header.join(' ')
-    body_rows = build_body_rows(body_dates, vertical)
+    header_cols, *body_table = generate_table(vertical)
+    header_row = header_cols.join(' ')
+    body_rows = build_body_rows(body_table, vertical)
     [header_row, *body_rows].join("\n")
   end
 
@@ -28,9 +28,9 @@ class SgStrangeCalendar
     vertical ? wdays.zip(*dates_by_month) : [wdays, *dates_by_month]
   end
 
-  def build_body_rows(body_dates, vertical)
+  def build_body_rows(body_table, vertical)
     day_width = vertical ? 4 : 3
-    body_dates.map do |first_col, *dates|
+    body_table.map do |first_col, *dates|
       build_body_row(first_col, dates, day_width)
     end
   end
