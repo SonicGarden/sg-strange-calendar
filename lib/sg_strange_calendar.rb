@@ -18,8 +18,6 @@ class SgStrangeCalendar
 
   private
 
-  def transpose_data(wdays, *dates_by_month) = wdays.zip(*dates_by_month)
-
   def generate_data(vertical)
     dates_by_month = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
@@ -31,9 +29,7 @@ class SgStrangeCalendar
     vertical ? wdays.zip(*dates_by_month) : [wdays, *dates_by_month]
   end
 
-  def build_header_row(year, values)
-    [year, *values].join(' ')
-  end
+  def build_header_row(year, values) = [year, *values].join(' ')
 
   def build_body_row(first_col, dates, date_width)
     days = dates.map do |date|
