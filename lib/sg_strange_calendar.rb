@@ -1,6 +1,5 @@
 class SgStrangeCalendar
   YEAR_WIDTH = 4
-  MONTHS = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
   WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
 
   def initialize(year, today = nil)
@@ -21,11 +20,11 @@ class SgStrangeCalendar
   private
 
   def generate_table(vertical)
-    dates_by_month = MONTHS.map.with_index do |month, i|
-      m = i + 1
+    dates_by_month = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
       blank_days = Array.new(first_date.wday)
+      month = first_date.strftime('%b')
       [month, *blank_days, *first_date..last_date]
     end
     wdays = [@year, *WDAYS]
