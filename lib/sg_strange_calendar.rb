@@ -18,8 +18,8 @@ class SgStrangeCalendar
     end
 
     def generate_calendar
-      generate_data.map.with_index do |(head, *values), i|
-        i.zero? ? build_header_row(head, values) : build_body_row(head, values)
+      generate_data.map.with_index do |(first_col, *values), i|
+        i.zero? ? build_header_row(first_col, values) : build_body_row(first_col, values)
       end.join("\n")
     end
 
@@ -40,10 +40,10 @@ class SgStrangeCalendar
       [year, *formatted_values].join(' ')
     end
 
-    def build_body_row(raw_head, dates)
-      head = format_first_col(raw_head)
+    def build_body_row(first_col, dates)
+      formatted_first_col = format_first_col(first_col).ljust(4)
       days = dates.map { |date| format_day(date) }
-      row = [head.ljust(4), *days].join
+      row = [formatted_first_col, *days].join
       insert_right_bracket(row).rstrip
     end
 
