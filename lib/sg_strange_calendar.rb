@@ -21,11 +21,11 @@ class SgStrangeCalendar
   private
 
   def generate_table(vertical)
-    dates_by_month = 1.upto(12).map do |m|
+    dates_by_month = 1.upto(12).map.with_index do |m, i|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
       blank_days = Array.new(first_date.wday)
-      [MONTHS[m - 1], *blank_days, *first_date..last_date]
+      [MONTHS[i], *blank_days, *first_date..last_date]
     end
     wdays = [@year, *WDAYS]
     vertical ? wdays.zip(*dates_by_month) : [wdays, *dates_by_month]
