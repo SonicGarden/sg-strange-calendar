@@ -37,8 +37,8 @@ class SgStrangeCalendar
 
   def build_body_row(first_col, dates, day_width)
     days = dates.map do |date|
-      day = add_left_bracket?(date) ? "[#{date.day}" : date&.day
-      day.to_s.rjust(day_width)
+      bracket = '[' if add_left_bracket?(date)
+      "#{bracket}#{date&.day}".rjust(day_width)
     end
     row = [first_col.ljust(YEAR_WIDTH), *days].join
     insert_right_bracket(row).rstrip
