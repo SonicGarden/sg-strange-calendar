@@ -36,7 +36,7 @@ class SgStrangeCalendar
     end
 
     def build_header_row(year, values)
-      labels = values.map(&format_header_label)
+      labels = values.map { |v| format_header_label(v) }
       [year, *labels].join(' ')
     end
 
@@ -60,7 +60,7 @@ class SgStrangeCalendar
 
     def date_width = 3
 
-    def format_header_label = ->(wday) { wday }
+    def format_header_label(wday) = wday
 
     def format_first_col(first_date) = to_month(first_date)
   end
@@ -75,7 +75,7 @@ class SgStrangeCalendar
 
     def date_width = 4
 
-    def format_header_label = ->(first_date) { to_month(first_date) }
+    def format_header_label(first_date) = to_month(first_date)
 
     def format_first_col(wday) = wday
   end
