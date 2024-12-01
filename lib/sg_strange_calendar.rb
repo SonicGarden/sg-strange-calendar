@@ -11,6 +11,7 @@ class SgStrangeCalendar
 
   class Generator
     FIRST_COL_WIDTH = 4
+    MONTHS = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
     WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
 
     def initialize(year, today)
@@ -31,29 +32,25 @@ class SgStrangeCalendar
         first_date = Date.new(@year, m, 1)
         last_date = Date.new(@year, m, -1)
         blank_days = Array.new(first_date.wday)
-        [first_date, *blank_days, *first_date..last_date]
+        [MONTHS[m - 1], *blank_days, *first_date..last_date]
       end
       [[@year, *WDAYS]] + dates_by_month
     end
 
     def build_header_row(year, values)
-      labels = values.map { |v| format_header_label(v) }
-      [year, *labels].join(' ')
+      [year, *values].join(' ')
     end
 
     def build_body_row(first_col, dates)
-      formatted_first_col = format_first_col(first_col).ljust(FIRST_COL_WIDTH)
       days = dates.map do |date|
         day = add_left_bracket?(date) ? "[#{date.day}" : date&.day
         day.to_s.rjust(date_width)
       end
-      row = [formatted_first_col, *days].join
+      row = [first_col.ljust(FIRST_COL_WIDTH), *days].join
       insert_right_bracket(row).rstrip
     end
 
     def add_left_bracket?(date) = @today && date == @today
-
-    def to_month(date) = date.strftime('%b')
 
     def insert_right_bracket(row) = row.sub(/(\[\d+) ?/, '\1]')
   end
@@ -62,10 +59,6 @@ class SgStrangeCalendar
     private
 
     def date_width = 3
-
-    def format_header_label(wday) = wday
-
-    def format_first_col(first_date) = to_month(first_date)
   end
 
   class VerticalGenerator < Generator
@@ -77,9 +70,5 @@ class SgStrangeCalendar
     end
 
     def date_width = 4
-
-    def format_header_label(first_date) = to_month(first_date)
-
-    def format_first_col(wday) = wday
   end
 end
