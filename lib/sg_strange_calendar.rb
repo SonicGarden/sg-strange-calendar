@@ -10,11 +10,12 @@ class SgStrangeCalendar
 
   def generate(vertical: false)
     header, *body = generate_table(vertical)
+    header_row = header.join(' ')
     day_width = vertical ? 4 : 3
-    body_rows = body.map do |first_col, *values|
-      build_body_row(first_col, values, day_width)
+    body_rows = body.map do |first_col, *dates|
+      build_body_row(first_col, dates, day_width)
     end
-    [header.join(' '), *body_rows].join("\n")
+    [header_row, *body_rows].join("\n")
   end
 
   private
