@@ -18,8 +18,8 @@ class SgStrangeCalendar
     end
 
     def generate_calendar
-      generate_data.map.with_index do |(head, *tail), i|
-        i.zero? ? build_header_row(head, tail) : build_body_row(head, tail)
+      generate_data.map.with_index do |(head, *values), i|
+        i.zero? ? build_header_row(head, values) : build_body_row(head, values)
       end.join("\n")
     end
 
@@ -35,33 +35,36 @@ class SgStrangeCalendar
       [[@year, *WDAYS]] + dates_by_month
     end
 
-    def to_month(date)
-      date.strftime('%b')
+    def build_header_row(year, values)
+      formatted_values = values.map { |value| format_header_col(value) }
+      [year, *formatted_values].join(' ')
     end
+
+    def build_body_row(raw_head, dates)
+      head = format_first_col(raw_head)
+      days = dates.map { |date| format_day(date) }
+      row = [head.ljust(4), *days].join
+      insert_right_bracket(row).rstrip
+    end
+
+    def to_month(date) = date.strftime('%b')
 
     def format_day(date)
       day = @today && date == @today ? "[#{date.day}" : date&.day
-      day.to_s.rjust(3)
+      day.to_s.rjust(date_width)
     end
 
-    def insert_right_bracket(row)
-      row.sub(/(\[\d+) ?/, '\1]')
-    end
+    def insert_right_bracket(row) = row.sub(/(\[\d+) ?/, '\1]')
   end
 
   class HorizontalGenerator < Generator
     private
 
-    def build_header_row(year, wdays)
-      [year, *wdays].join(' ')
-    end
+    def date_width = 3
 
-    def build_body_row(first_date, dates)
-      month = to_month(first_date)
-      days = dates.map { |date| format_day(date) }
-      row = ["#{month} ", *days].join
-      insert_right_bracket(row)
-    end
+    def format_header_col(wday) = wday
+
+    def format_first_col(first_date) = to_month(first_date)
   end
 
   class VerticalGenerator < Generator
@@ -72,15 +75,10 @@ class SgStrangeCalendar
       wdays.zip(*dates_by_month)
     end
 
-    def build_header_row(year, first_dates)
-      months = first_dates.map { |date| to_month(date) }
-      [year, *months].join(' ')
-    end
+    def date_width = 4
 
-    def build_body_row(wday, dates)
-      days = dates.map { |date| format_day(date) }
-      row = ["#{wday}  ", *days].join(' ')
-      insert_right_bracket(row).rstrip
-    end
+    def format_header_col(first_date) = to_month(first_date)
+
+    def format_first_col(wday) = wday
   end
 end
