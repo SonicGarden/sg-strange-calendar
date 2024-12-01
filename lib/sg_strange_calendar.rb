@@ -1,5 +1,5 @@
 class SgStrangeCalendar
-  FIRST_COL_WIDTH = 4
+  YEAR_WIDTH = 4
   MONTHS = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
   WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
 
@@ -37,7 +37,7 @@ class SgStrangeCalendar
       day = add_left_bracket?(date) ? "[#{date.day}" : date&.day
       day.to_s.rjust(day_width)
     end
-    row = [first_col.ljust(FIRST_COL_WIDTH), *days].join
+    row = [first_col.ljust(YEAR_WIDTH), *days].join
     insert_right_bracket(row).rstrip
   end
 
