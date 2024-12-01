@@ -9,16 +9,16 @@ class SgStrangeCalendar
   end
 
   def generate(vertical: false)
-    data = generate_data(vertical)
-    date_width = vertical ? 4 : 3
-    data.map.with_index do |(first_col, *values), i|
-      i.zero? ? build_header_row(first_col, values) : build_body_row(first_col, values, date_width)
+    table = generate_table(vertical)
+    day_width = vertical ? 4 : 3
+    table.map.with_index do |(first_col, *values), i|
+      i.zero? ? build_header_row(first_col, values) : build_body_row(first_col, values, day_width)
     end.join("\n")
   end
 
   private
 
-  def generate_data(vertical)
+  def generate_table(vertical)
     dates_by_month = 1.upto(12).map do |m|
       first_date = Date.new(@year, m, 1)
       last_date = Date.new(@year, m, -1)
@@ -31,10 +31,10 @@ class SgStrangeCalendar
 
   def build_header_row(year, values) = [year, *values].join(' ')
 
-  def build_body_row(first_col, dates, date_width)
+  def build_body_row(first_col, dates, day_width)
     days = dates.map do |date|
       day = add_left_bracket?(date) ? "[#{date.day}" : date&.day
-      day.to_s.rjust(date_width)
+      day.to_s.rjust(day_width)
     end
     row = [first_col.ljust(FIRST_COL_WIDTH), *days].join
     insert_right_bracket(row).rstrip
