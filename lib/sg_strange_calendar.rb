@@ -10,6 +10,7 @@ class SgStrangeCalendar
   end
 
   class Generator
+    FIRST_COL_WIDTH = 4
     WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
 
     def initialize(year, today)
@@ -41,14 +42,16 @@ class SgStrangeCalendar
     end
 
     def build_body_row(first_col, dates)
-      formatted_first_col = format_first_col(first_col).ljust(4)
+      formatted_first_col = format_first_col(first_col).ljust(FIRST_COL_WIDTH)
       days = dates.map do |date|
-        day = @today && date == @today ? "[#{date.day}" : date&.day
+        day = add_left_bracket?(date) ? "[#{date.day}" : date&.day
         day.to_s.rjust(date_width)
       end
       row = [formatted_first_col, *days].join
       insert_right_bracket(row).rstrip
     end
+
+    def add_left_bracket?(date) = @today && date == @today
 
     def to_month(date) = date.strftime('%b')
 
