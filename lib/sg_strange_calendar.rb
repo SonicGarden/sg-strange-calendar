@@ -36,8 +36,8 @@ class SgStrangeCalendar
     end
 
     def build_header_row(year, values)
-      formatted_values = values.map(&format_header_label)
-      [year, *formatted_values].join(' ')
+      labels = values.map(&format_header_label)
+      [year, *labels].join(' ')
     end
 
     def build_body_row(first_col, dates)
