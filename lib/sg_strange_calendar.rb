@@ -40,11 +40,6 @@ class SgStrangeCalendar
   end
 
   def display_vertical
-    header_output = []
-    months_output = []
-    header_output << generate_vertical_header()
-    months_output << generate_vertical_months()
-    header_output.join("\n") + "\n" + months_output.join("\n")
   end
 
   def display_horizontal
@@ -56,10 +51,6 @@ class SgStrangeCalendar
 
   def generate_header
     "#{@year} #{DAYS.join(' ')}"
-  end
-
-  def generate_vertical_header
-    "#{@year} #{@months.map(&:name).join(' ')}"
   end
 
   def generate_months
@@ -74,17 +65,6 @@ class SgStrangeCalendar
         display_days_in_month(month, days_in_month, leading_spaces, today_marker: false)
       end
     end
-  end
-
-  def generate_vertical_months
-    arr = []
-    @months.map do |month|
-      days_in_month = generate_days_in_month(month)
-      leading_spaces = calculate_spaces(month)
-      days_in_month += [nil] * (31 - days_in_month.size)
-      arr << days_in_month
-    end
-    p arr.transpose
   end
 
   def generate_days_in_month(month, today_marker: false)
