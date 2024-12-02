@@ -17,6 +17,10 @@ class Month
     Date.new(@year, @number, -1).day
   end
 
+  def first_day_of_month?(date)
+    date.day == Date.new(date.year, @number, 1).day
+  end
+
   def end_of_month?(date)
     date.day == Date.new(date.year, @number, -1).day
   end

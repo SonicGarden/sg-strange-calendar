@@ -77,22 +77,30 @@ class SgStrangeCalendar
       days_in_month[start_day + d - 1] = d.to_s.rjust(2, ' ')
     end
 
-    days_in_month[@today.day + start_day - 1] = "[#{@today.day}]" if today_marker
+    days_in_month[@today.day + start_day - 1] = "[#{@today.day}]".rjust(4, ' ') if today_marker
     days_in_month
   end
 
   def display_days_in_month(month, days_in_month, leading_spaces, today_marker: false)
-    if today_marker
+    if today_marker 
       start_day = month.start_wday
-      days_in_month_until_today = days_in_month[0..@today.day + start_day - 1]
-      days_in_month_after_today = days_in_month[@today.day + start_day..-1]
+      days_in_month_until_today = days_in_month[0..(start_day + @today.day - 2)]
+      days_today = days_in_month[start_day + @today.day - 1]
+      days_in_month_after_today = days_in_month[start_day + @today.day..-1]
 
-      if month.end_of_month?(@today)
-        "#{month.name} #{leading_spaces}#{days_in_month_until_today[0..-2].join(' ')}#{days_in_month_until_today.last}"
+      if month.first_day_of_month?(@today) && month.start_wday == 0
+        days_in_month_until_today = days_in_month[0..(start_day + @today.day - 1)]
+        "#{month.name}#{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_in_month_after_today.join(' ').rstrip}"
+      elsif month.first_day_of_month?(@today)
+        "#{month.name} #{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_today}#{days_in_month_after_today.join(' ').rstrip}"
+      elsif month.end_of_month?(@today)
+        "#{month.name} #{leading_spaces}#{days_in_month_until_today[0..-1].join(' ')}#{days_today}"
       else
-        "#{month.name} #{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_in_month_after_today.join(' ').rstrip}"
+
+        "#{month.name} #{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_today}#{days_in_month_after_today.join(' ').rstrip}"
       end
     else
+
       "#{month.name} #{leading_spaces}#{days_in_month.join(' ').rstrip}"
     end
   end
