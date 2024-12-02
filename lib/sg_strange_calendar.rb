@@ -10,6 +10,8 @@ class SgStrangeCalendar
     Su Mo Tu We Th Fr Sa Su Mo
   ].freeze
 
+  ALL_DAYS_COUNT = 37
+
   def initialize(year, today = nil)
     @year = year
     @today = today
@@ -68,28 +70,34 @@ class SgStrangeCalendar
   end
 
   def generate_days_in_month(month, today_marker: false)
-    days_in_month = (Month::FIRST_DAY..month.last_day).map { |d| d.to_s.rjust(2, ' ') }
-    days_in_month[@today.day - 1] = "[#{@today.day}]" if today_marker
+    days_in_month = Array.new(ALL_DAYS_COUNT, '  ')
+    start_day = month.start_wday
+
+    (1..month.last_day).each do |d|
+      days_in_month[start_day + d - 1] = d.to_s.rjust(2, ' ')
+    end
+
+    days_in_month[@today.day + start_day - 1] = "[#{@today.day}]" if today_marker
     days_in_month
   end
 
-  def display_days_in_month(month, days, leading_spaces, today_marker: false)
+  def display_days_in_month(month, days_in_month, leading_spaces, today_marker: false)
     if today_marker
-      days_in_month_until_today = (Month::FIRST_DAY..@today.day).map { |d| d.to_s.rjust(2, ' ') }
-      days_in_month_until_today[@today.day - 1] = "[#{@today.day}]"
-      days_in_month_after_today = (@today.day + 1..month.last_day).map { |d| d.to_s.rjust(2, ' ') }
+      start_day = month.start_wday
+      days_in_month_until_today = days_in_month[0..@today.day + start_day - 1]
+      days_in_month_after_today = days_in_month[@today.day + start_day..-1]
 
       if month.end_of_month?(@today)
         "#{month.name} #{leading_spaces}#{days_in_month_until_today[0..-2].join(' ')}#{days_in_month_until_today.last}"
       else
-        "#{month.name} #{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_in_month_after_today.join(' ')}"
+        "#{month.name} #{leading_spaces}#{days_in_month_until_today.join(' ')}#{days_in_month_after_today.join(' ').rstrip}"
       end
     else
-      "#{month.name} #{leading_spaces}#{days.join(' ')}"
+      "#{month.name} #{leading_spaces}#{days_in_month.join(' ').rstrip}"
     end
   end
 
   def calculate_spaces(month)
-    ' ' * [1, @year.to_s.split('').count - 3].max + ' ' * month.start_wday * 3
+    ' ' * [1, @year.to_s.split('').count - 3].max
   end
 end
