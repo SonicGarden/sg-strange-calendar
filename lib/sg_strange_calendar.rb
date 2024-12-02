@@ -1,9 +1,11 @@
+require_relative 'calendar/year'
+
 class SgStrangeCalendar
   def initialize(year, today = nil)
-    # write your code here
+    @year = Calendar::Year.new(value: year, today:)
   end
 
   def generate(vertical: false)
-    # write your code here
+    @year.generate(vertical:)
   end
 end
