@@ -19,4 +19,6 @@ jobs:
       - name: Run tests
         run: ruby test/sg_strange_calendar_test.rb --no-plugins
       - name: Run RubyCritic
-        run: rubycritic lib/**/*.rb -f console
+        run: |
+          shopt -s globstar
+          rubycritic lib/**/*.rb -f console
