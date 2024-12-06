@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+ require 'minitest/autorun'
 require 'date'
 require_relative '../lib/sg_strange_calendar'
 
