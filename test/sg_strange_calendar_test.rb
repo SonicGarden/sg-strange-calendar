@@ -44,7 +44,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_2_for_2024_01_01
-    skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan     [1] 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -66,7 +65,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_2_for_2024_12_09
-    skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -88,7 +86,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_2_for_2025_03_31
-    skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2025 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -110,7 +107,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -156,7 +152,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_01_01
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -203,7 +198,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_12_09
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -250,7 +244,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2025_03_31
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2025 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                         1
