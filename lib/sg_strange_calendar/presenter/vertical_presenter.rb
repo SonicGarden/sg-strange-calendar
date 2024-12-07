@@ -10,11 +10,11 @@ class SgStrangeCalendar
       end
 
       def update_today_str(str_row)
-        # 10 文字より小さかったら、日付の前にスペースを追加
-        # 1 文字ずつずらす
-        return str_row.gsub(/\] /, ']').gsub(/\[/, ' [') if @today.day < 10
+        # 2桁以上は、右側へのはみ出しを削る
+        str_row = str_row.gsub(/\[/, ' [') if @today.day < 10
 
-        str_row
+        # 右側へのはみ出しを削る
+        str_row.gsub(/\] /, ']')
       end
     end
   end
