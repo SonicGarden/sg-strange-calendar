@@ -218,22 +218,29 @@ Mo
 テストコードがすべてパス（またはskip）すること。テストコードは以下のようにして実行できる。
 
 ```
-$ ruby test/sg_strange_calendar_test.rb --no-plugins
-Run options: --seed 63980
-
 # Running:
 
-SSS.S.SSS
+FSSSSFSSSSS
 
-Finished in 0.000450s, 19999.9978 runs/s, 4444.4439 assertions/s.
+Finished in 0.026042s, 422.3946 runs/s, 76.7990 assertions/s.
 
-9 runs, 2 assertions, 0 failures, 0 errors, 7 skips
+  1) Failure:
+SgStrangeCalendarTest#test_level_1_for_2024 [test/sg_strange_calendar_test.rb:23]:
+# 省略
+
+
+  2) Failure:
+SgStrangeCalendarTest#test_level_1_for_2025 [test/sg_strange_calendar_test.rb:43]:
+# 省略
+
+
+11 runs, 2 assertions, 2 failures, 0 errors, 9 skips
 
 You have skipped tests. Run with --verbose for details.
 ``` 
 
-初期状態ではレベル2とレベル3用のテストが`skip`されているため、実行結果には`S`が7つ出力される。  
-レベル1の状態でコードを提出する場合はテストは`skip`したままでOK。
+初期状態ではレベル2とレベル3用のテストが`skip`されているため、実行結果には`S`が9つ出力される。  
+レベル1の状態でコードを提出する場合は、それらのテストは`skip`したままでOK（レベル1用の2つのテストをパスさせるのが提出の条件）。
 
 レベル3まで進む場合、全テストを`skip`せずにパスさせる必要があるため、実行結果に`S`は出力されなくなる。
 
@@ -243,11 +250,11 @@ Run options: --seed 16463
 
 # Running:
 
-.........
+...........
 
-Finished in 0.001414s, 6364.9222 runs/s, 6364.9222 assertions/s.
+Finished in 0.131037s, 83.9458 runs/s, 5639.6285 assertions/s.
 
-9 runs, 9 assertions, 0 failures, 0 errors, 0 skips
+11 runs, 739 assertions, 0 failures, 0 errors, 0 skips
 ```
 
 なお、レベル1〜3のいずれも対応するテストパターンはテストコード内のパターンだけでOKとする。  
