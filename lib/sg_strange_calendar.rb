@@ -30,17 +30,17 @@ class SgStrangeCalendar
 
   def build_body_rows(body_table, vertical)
     day_width = vertical ? 4 : 3
-    body_table.map do |first_col, *dates|
-      build_body_row(first_col, dates, day_width)
+    body_table.map do |header_col, *dates|
+      build_body_row(header_col, dates, day_width)
     end
   end
 
-  def build_body_row(first_col, dates, day_width)
+  def build_body_row(header_col, dates, day_width)
     days = dates.map do |date|
       bracket = '[' if add_left_bracket?(date)
       "#{bracket}#{date&.day}".rjust(day_width)
     end
-    row = [first_col.ljust(YEAR_WIDTH), *days].join
+    row = [header_col.ljust(YEAR_WIDTH), *days].join
     insert_right_bracket(row).rstrip
   end
 
