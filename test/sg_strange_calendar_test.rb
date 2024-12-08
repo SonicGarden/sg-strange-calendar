@@ -107,7 +107,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_2_all
-    skip "レベル2にチャレンジする人はこの行を削除してください"
     file_path = File.expand_path('level2.txt', File.dirname(__FILE__))
     calendars = File.read(file_path).lines.each_slice(13).map(&:join).map(&:chomp)
     from_date = Date.new(2025, 1, 1)
@@ -303,7 +302,6 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_all
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     file_path = File.expand_path('level3.txt', File.dirname(__FILE__))
     calendars = File.read(file_path).lines.each_slice(38).map(&:join).map(&:chomp)
     from_date = Date.new(2025, 1, 1)
