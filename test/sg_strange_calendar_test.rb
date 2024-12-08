@@ -106,6 +106,19 @@ class SgStrangeCalendarTest < Minitest::Test
     assert_equal expected, calendar.generate
   end
 
+  def test_level_2_all
+    skip "レベル2にチャレンジする人はこの行を削除してください"
+    file_path = File.expand_path('level2.txt', File.dirname(__FILE__))
+    calendars = File.read(file_path).lines.each_slice(13).map(&:join).map(&:chomp)
+    from_date = Date.new(2025, 1, 1)
+    to_date = Date.new(2025, 12, 31)
+    dates = [*from_date..to_date]
+    dates.zip(calendars) do |date, expected|
+      actual = SgStrangeCalendar.new(2025, date).generate
+      assert_equal expected, actual
+    end
+  end
+
   def test_level_3_for_2024
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
@@ -287,5 +300,18 @@ class SgStrangeCalendarTest < Minitest::Test
     today = Date.new(2025, 3, 31)
     calendar = SgStrangeCalendar.new(2025, today)
     assert_equal expected, calendar.generate(vertical: true)
+  end
+
+  def test_level_3_all
+    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    file_path = File.expand_path('level3.txt', File.dirname(__FILE__))
+    calendars = File.read(file_path).lines.each_slice(38).map(&:join).map(&:chomp)
+    from_date = Date.new(2025, 1, 1)
+    to_date = Date.new(2025, 12, 31)
+    dates = [*from_date..to_date]
+    dates.zip(calendars) do |date, expected|
+      actual = SgStrangeCalendar.new(2025, date).generate(vertical: true)
+      assert_equal expected, actual
+    end
   end
 end
