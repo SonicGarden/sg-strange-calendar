@@ -1,3 +1,5 @@
+require 'date'
+
 class SgStrangeCalendar
   YEAR_WIDTH = 4
   WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37)
