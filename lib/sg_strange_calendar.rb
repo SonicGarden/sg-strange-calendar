@@ -7,6 +7,7 @@ class SgStrangeCalendar
   def initialize(year, today = nil)
     @year = year
     @today = today
+    @should_mark_today = @today&.year == @year
   end
 
   def generate(vertical: false)
@@ -16,10 +17,20 @@ class SgStrangeCalendar
     month_last_days = (1..12).map { |i| Date.new(@year, i, 1).next_month.prev_day.day }
 
     calenders_per_month = MONTHS.map.with_index do |month, i|
-      ["#{month} "]
-        .concat(['  '] * month_first_wdays[i])
-        .concat((1..month_last_days[i]).to_a.map { |day| day.to_s.rjust(2) })
-        .join(' ')
+      calender = ["#{month} "]
+                   .concat(['  '] * month_first_wdays[i])
+                   .concat((1..month_last_days[i]).to_a.map { |day| day.to_s.rjust(2) })
+                   .join(' ')
+
+      if @should_mark_today && @today.month - 1 == i
+        right_bracket_index = 4 + (month_first_wdays[i] + @today.day) * 3
+        left_bracket_index = right_bracket_index - (@today.day.between?(1, 9) ? 2 : 3)
+
+        calender[left_bracket_index] = '['
+        calender[right_bracket_index] = ']'
+      end
+
+      calender
     end
 
     [header].concat(calenders_per_month).join("\n")
