@@ -12,7 +12,11 @@ class SgStrangeCalendar
   end
 
   def generate(vertical: false)
-    generate_horizontal
+    if vertical
+      generate_vertical
+    else
+      generate_horizontal
+    end
   end
 
   private
@@ -38,6 +42,31 @@ class SgStrangeCalendar
     end
 
     [header].concat(calenders_per_month).join("\n")
+  end
+
+  def generate_vertical
+    header = [@year.to_s.ljust(4)].concat(MONTHS).join(' ')
+
+    calenders_2d_array = generate_calenders_2d_array
+    calenders_per_wday = WDAYS.map.with_index do |wday, i|
+      row = ["#{wday}  "]
+            .concat(calenders_2d_array.map { |calender_per_month| calender_per_month[i].to_s.rjust(2) })
+            .join('  ')
+            .strip
+
+      # @todayがWDAYSの最初のSuから数えてi日目のとき
+      if @should_mark_today && @month_first_wdays[@today.month - 1] + @today.day - 1 == i
+        right_bracket_index = 4 * (@today.month + 1)
+        left_bracket_index = right_bracket_index - (@today.day.between?(1, 9) ? 2 : 3)
+
+        row[left_bracket_index] = '['
+        row[right_bracket_index] = ']'
+      end
+
+      row
+    end
+
+    [header].concat(calenders_per_wday).join("\n")
   end
 
   # 例

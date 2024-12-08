@@ -123,7 +123,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    # skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -169,7 +169,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_01_01
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    # skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -216,7 +216,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2024_12_09
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    # skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                                     1           1
@@ -263,7 +263,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_for_2025_03_31
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    # skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2025 Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
       Su                         1
@@ -310,7 +310,7 @@ class SgStrangeCalendarTest < Minitest::Test
   end
 
   def test_level_3_all
-    skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
+    # skip "レベル2およびレベル3にチャレンジする人はこの行を削除してください"
     file_path = File.expand_path('level3.txt', File.dirname(__FILE__))
     calendars = File.read(file_path).lines.each_slice(38).map(&:join).map(&:chomp)
     from_date = Date.new(2025, 1, 1)
