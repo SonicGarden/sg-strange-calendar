@@ -45,9 +45,9 @@ class SgStrangeCalendar
       Array.new(YEAR_SPACE_SIZE + MONTHS.size, '')
     end
     calendar[0] = [nil, *MONTHS.values]
-    transpose_calendar = calendar.transpose
-    transpose_calendar[0] = [year.to_s] + WEEKDAYS.cycle.take(WEEKDAYS_SPACE_SIZE)
-    transpose_calendar
+    transposed_calendar = calendar.transpose
+    transposed_calendar[0] = [year.to_s, *WEEKDAYS.cycle.take(WEEKDAYS_SPACE_SIZE)]
+    transposed_calendar
   end
 
   def build_day_filled_calendar(calendar)
@@ -66,7 +66,9 @@ class SgStrangeCalendar
   # カレンダーは日曜日から始まるが月初の曜日はそれぞれ異なるのでその分のオフセットを保持
   def offset_days_each_month
     @offset_days_each_month ||= MONTHS.each_key.to_h do |month_number|
-      [month_number, Date.new(year, month_number, 1).wday]
+      offset_days = Date.new(year, month_number, 1).wday
+
+      [month_number, offset_days]
     end
   end
 
@@ -79,28 +81,23 @@ class SgStrangeCalendar
 
     cell_adjusted_calendar = directed_calendar.map do |row|
       row[0] = row[0].ljust(year_size)
-      row.map.with_index(1) do |value|
-          value.rjust(cell_size)
-      end.join(" ").rstrip
+      adjusted_row = row.map.with_index(1) { |v| v.rjust(cell_size) }
+      adjusted_row.join(' ').rstrip
     end.join("\n")
 
     if today
-      adjust_emphasized(cell_adjusted_calendar, vertical)
+      adjust_emphasized_day(cell_adjusted_calendar, vertical)
     else
       cell_adjusted_calendar
     end
   end
 
   # todayが指定された際に、[]の分増えたスペースを調整
-  def adjust_emphasized(row, vertical)
+  def adjust_emphasized_day(row, vertical)
     common = row.sub(/((?<=\[\d{2}\]) {1})/, '')
+                .sub(/((?<=\[\d{1}\]) {1})/, '')
 
-    if vertical
-      common.sub(/ {1}(?=\[\d{1}\])/, '  ')
-            .sub(/((?<=\[\d{1}\]) {1})/, '')
-    else
-      common.sub(/(?<=\[\d{1}\]) {1}/, '')
-            .sub(/ {1}(?=\[\d{2}\])/, '')
-    end
+    vertical ? common.sub(/ {1}(?=\[\d{1}\])/, '  ') :
+               common.sub(/ {1}(?=\[\d{2}\])/, '')
   end
 end
