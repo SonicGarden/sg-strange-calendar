@@ -87,39 +87,29 @@ class SgStrangeCalendar
 
     # 一行目の項目のサイズに依存する
     cell_size = (vertical ? MONTHS : WEEKDAYS).values.max_by(&:size).size
+    year_size = year.to_s.size
     cell_adjusted_calendar = directed_calendar.map do |row|
       row.map.each_with_index do |value, i|
-          i.zero? ? value.ljust(year.to_s.size) : value.rjust(cell_size)
+          i.zero? ? value.ljust(year_size) : value.rjust(cell_size)
       end
     end
 
     # todayが指定された際に、[]の分増えたスペースを調整
-    cell_adjusted_calendar.map do |row|
-      if vertical
-        vertical_emphasized_line(row)
-      else
-        horizontal_emphasized_line(row)
-      end.rstrip
-    end.join("\n")
+    c = cell_adjusted_calendar.map{ |row| row.join(" ").rstrip }
+                          .join("\n")
+    adjust_emphasized(c, vertical)
+
   end
 
-  def vertical_emphasized_line(line)
-    line.map do |space|
-      case space
-      when /\[\d{2}\]/
-        space
-      when /\[\d{1}\]/
-        ' ' + space
-      else
-        space + ' '
-      end
-    end.join
-  end
+  def adjust_emphasized(row, vertical)
+    common = row.sub(/((?<=\[\d{2}\]) {1})/, '')
 
-  def horizontal_emphasized_line(line)
-    line.join(' ')
-        .sub(/(?<=\[\d{1}\]) {1}/, '')
-        .gsub(/ {1}(?=\[\d{2}\])/, '')
-        .gsub(/((?<=\[\d{2}\]) {1})/, '')
+    if vertical
+      common.sub(/ {1}(?=\[\d{1}\])/, '  ')
+            .sub(/((?<=\[\d{1}\]) {1})/, '')
+    else
+      common.sub(/(?<=\[\d{1}\]) {1}/, '')
+            .sub(/ {1}(?=\[\d{2}\])/, '')
+    end
   end
 end
