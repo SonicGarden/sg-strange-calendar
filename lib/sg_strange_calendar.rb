@@ -35,16 +35,14 @@ class SgStrangeCalendar
   def generate(vertical: false)
     outline_filled_calendar = build_outline_filled_calendar
     day_filled_calendar = build_day_filled_calendar(outline_filled_calendar)
-    build_visualized_calendar(day_filled_calendar, vertical)
+    build_formatted_calendar(day_filled_calendar, vertical)
   end
 
   private
 
   def build_outline_filled_calendar
     calendar = Array.new(YEAR_SPACE_SIZE + MONTHS.size).map do
-      Array.new(YEAR_SPACE_SIZE + WEEKDAYS_SPACE_SIZE) do
-        ''
-      end
+      Array.new(YEAR_SPACE_SIZE + WEEKDAYS_SPACE_SIZE, '')
     end
 
     calendar[0][0] = year.to_s
@@ -82,7 +80,7 @@ class SgStrangeCalendar
     end
   end
 
-  def build_visualized_calendar(calendar, vertical)
+  def build_formatted_calendar(calendar, vertical)
     directed_calendar = vertical ? calendar.transpose : calendar
 
     # 一行目の項目のサイズに依存する
