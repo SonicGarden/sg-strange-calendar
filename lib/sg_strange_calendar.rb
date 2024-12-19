@@ -57,7 +57,7 @@ class SgStrangeCalendar
       date_index = date.day + offset_days_each_month[date.month]
       date_value = date == today ? "[#{date.day}]" : date.day.to_s
 
-      day_filled_calendar[date.month][date_index] =  date_value
+      day_filled_calendar[date.month][date_index] = date_value
     end
 
     day_filled_calendar
